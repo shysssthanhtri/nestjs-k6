@@ -22,3 +22,11 @@ jobs:
         run: pnpm test
       - name: Test e2e
         run: pnpm test:e2e
+
+      - name: Install k6
+        run: |
+          curl https://github.com/grafana/k6/releases/download/v0.44.0/k6-v0.44.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1 
+      - name: Start server and run tests
+        run: |
+          pnpm start & pnpx wait-on http://localhost:3000
+          ./k6 run ./loadtest/loadtest.test.js
