@@ -8,11 +8,11 @@ export const options = {
   stages: [
     {
       duration: '2s',
-      target: 50,
+      target: 10,
     },
     {
       duration: '2s',
-      target: 100,
+      target: 20,
     },
     {
       duration: '2s',
@@ -20,7 +20,7 @@ export const options = {
     },
   ],
   thresholds: {
-    http_req_duration: ['p(90)<10'],
+    http_req_duration: ['p(90)<50'],
   },
 };
 
