@@ -7,15 +7,19 @@ export const options = {
   stages: [
     {
       duration: '2s',
-      target: 50,
+      target: 50, // Normal
     },
     {
       duration: '2s',
-      target: 100,
+      target: 100, // Spike
+    },
+    {
+      duration: '4s',
+      target: 100, // Peak
     },
     {
       duration: '2s',
-      target: 0,
+      target: 0, // Down
     },
   ],
   thresholds: {

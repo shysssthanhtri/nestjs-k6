@@ -11,3 +11,10 @@
 - vus: Virtual users
 - duration: Executing time
 - target: Target vus in stages
+
+## Test strategies:
+- Stages: test suite should include stages
+    - Baseline: normal load of system
+    - Spike: assess the system’s reaction to sudden spikes in load
+    - Endurance: load is at peak for sometime
+    - Scale down: load is decrease

@@ -8,15 +8,19 @@ export const options = {
   stages: [
     {
       duration: '2s',
-      target: 10,
+      target: 10, // Normal
     },
     {
       duration: '2s',
-      target: 20,
+      target: 20, // Spike
+    },
+    {
+      duration: '4s',
+      target: 20, // Peak
     },
     {
       duration: '2s',
-      target: 0,
+      target: 0, // Down
     },
   ],
   thresholds: {
@@ -25,6 +29,6 @@ export const options = {
 };
 
 export default function () {
-  http.get('http://localhost:3000');
+  const res = http.get('http://localhost:3000');
   check(res, { 'status is 200': (res) => res.status === 200 });
 }
