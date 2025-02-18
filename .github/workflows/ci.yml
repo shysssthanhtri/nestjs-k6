@@ -23,10 +23,33 @@ jobs:
       - name: Test e2e
         run: pnpm test:e2e
 
-      - name: Install k6
+      # - name: Install k6
+      #   run: |
+      #     curl https://github.com/grafana/k6/releases/download/v0.44.0/k6-v0.44.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1 
+      # - name: Start server and run tests
+      #   run: |
+      #     pnpm start & pnpx wait-on http://localhost:3000
+      #     ./k6 run ./loadtest/loadtest.test.js
+
+      - name: Start the NestJS server
         run: |
-          curl https://github.com/grafana/k6/releases/download/v0.44.0/k6-v0.44.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1 
-      - name: Start server and run tests
+          # Start the NestJS app in the background
+          pnpm start &
+
+          # Wait for the server to be ready (using curl to hit the health endpoint)
+          until curl --silent --fail http://localhost:3000/health; do
+            echo "Waiting for NestJS to start..."
+            sleep 2
+          done
+          echo "NestJS is up and running!"
+
+      - uses: grafana/setup-k6-action@v1
+      - uses: grafana/run-k6-action@v1
+        with:
+          path: |
+            ./loadtest/*.test.js
+
+      - name: Stop the NestJS server (Optional)
         run: |
-          pnpm start & pnpx wait-on http://localhost:3000
-          ./k6 run ./loadtest/loadtest.test.js
+          # Kill the background NestJS process (if needed)
+          pkill -f "pnpm start"
